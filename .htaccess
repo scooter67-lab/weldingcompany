@@ -1,0 +1,82 @@
+# Конфигурация для обычного хостинга (Apache / LiteSpeed).
+#
+# Лежит в public/, поэтому Next копирует его в out/ при сборке — отдельно
+# заливать не нужно, он попадает на сервер вместе с остальными файлами.
+#
+# Делает то же, что deploy/nginx.conf на VPS: редирект с корня, свою
+# страницу 404, сжатие, кэш и правильные MIME-типы. На nginx-хостинге
+# файл просто игнорируется и ни на что не влияет.
+#
+# Директивы обёрнуты в <IfModule>: если модуль не подключён, правило
+# игнорируется, а не роняет сайт ошибкой 500.
+
+DirectoryIndex index.html
+
+# Своя страница ошибки вместо заглушки хостинга
+ErrorDocument 404 /404.html
+
+# Запрет листинга каталогов. Если хостинг запрещает менять Options через
+# .htaccess, сайт ответит 500 — в этом случае строку нужно удалить.
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Принудительный HTTPS. Включить ПОСЛЕ выпуска сертификата в панели,
+    # иначе получится бесконечный цикл редиректов.
+    # RewriteCond %{HTTPS} !=on
+    # RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+    # Корень -> язык по умолчанию. При статическом экспорте middleware
+    # не работает, страницы живут только под /ru/ и /kk/.
+    # 302, а не 301: язык по умолчанию ещё может поменяться, а 301
+    # надолго оседает в кэше браузеров.
+    RewriteRule ^$ /ru/ [R=302,L]
+</IfModule>
+
+# Пути вида /ru/services/ отдаются как ru/services/index.html штатным
+# DirectoryIndex — рерайты для них не нужны. Запрос без слеша
+# (/ru/services) mod_dir сам переводит на версию со слешем.
+
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/css text/xml
+    AddOutputFilterByType DEFLATE application/javascript application/json
+    AddOutputFilterByType DEFLATE application/xml image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+    ExpiresActive On
+
+    # Имена файлов в /_next/static/ содержат хеш содержимого
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+
+    # Картинки лежат по постоянным именам и меняются при обновлении сайта,
+    # поэтому срок короче и без immutable
+    ExpiresByType image/webp "access plus 30 days"
+    ExpiresByType image/svg+xml "access plus 30 days"
+
+    # HTML пересобирается при каждом деплое — иначе посетители
+    # увидят старую версию
+    ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+<IfModule mod_headers.c>
+    # immutable только для файлов с хешем в имени
+    <FilesMatch "\.(js|css|woff2)$">
+        Header set Cache-Control "public, immutable"
+    </FilesMatch>
+
+    Header set X-Content-Type-Options "nosniff"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header always set X-Frame-Options "SAMEORIGIN"
+</IfModule>
+
+# Часть хостингов отдаёт эти типы как application/octet-stream —
+# тогда картинки и шрифты не отображаются
+<IfModule mod_mime.c>
+    AddType image/webp .webp
+    AddType font/woff2 .woff2
+    AddType image/svg+xml .svg
+</IfModule>

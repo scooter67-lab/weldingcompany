@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- Страница-прокладка, дубль /ru/ — в индекс не нужна -->
+    <meta name="robots" content="noindex" />
+    <meta http-equiv="refresh" content="0; url=/ru/" />
+    <link rel="canonical" href="https://weldingcompany.kz/ru/" />
+    <title>WeldingCompany — Инжиниринг молочных производств</title>
+    <style>
+      body {
+        margin: 0;
+        min-height: 100dvh;
+        display: grid;
+        place-items: center;
+        background: #082b40;
+        color: #dbe6ed;
+        font-family: ui-sans-serif, system-ui, sans-serif;
+        text-align: center;
+        padding: 24px;
+      }
+      a {
+        color: #f0aa3c;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+      Корневая страница статического экспорта: маршрутов вне /[locale] нет,
+      поэтому редирект на язык по умолчанию делается здесь.
+
+      На Apache/LiteSpeed раньше сработает правило из deploy/.htaccess, и до
+      этой разметки дело не дойдёт. Она нужна там, где конфиг сервера
+      недоступен, — тогда работает meta refresh выше, скрипт ниже или ссылка.
+
+      Язык браузера намеренно не определяем: на целевом хостинге редирект
+      отдаёт сервер, и такая логика была бы мёртвым кодом.
+    -->
+    <p>
+      Переходим на сайт… Если ничего не произошло —
+      <a href="/ru/">откройте его вручную</a>.
+    </p>
+    <script>
+      // replace(), а не href: не оставляет прокладку в истории браузера,
+      // иначе кнопка «Назад» возвращала бы сюда и снова редиректила
+      location.replace("/ru/");
+    </script>
+  </body>
+</html>
