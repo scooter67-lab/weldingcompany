@@ -1,0 +1,75 @@
+@import "tailwindcss";
+
+@theme {
+  /* Палитра взята из фирменного логотипа (docx/logoWC.png) */
+  --color-brand-900: #082b40;
+  --color-brand-800: #0d3b56;
+  --color-brand-700: #16506f;
+  --color-brand-100: #dbe6ed;
+  --color-brand-50: #eef4f8;
+
+  --color-accent: #f0aa3c;
+  --color-accent-dark: #d18f28;
+  /* Янтарь для текста на светлом фоне: #e8a33d даёт лишь 2.15:1 */
+  --color-accent-text: #8a5a12;
+  --color-accent-soft: #fdf3e2;
+
+  --color-surface: #ffffff;
+  --color-canvas: #f6f7f5;
+  --color-ink: #1a1f24;
+  --color-muted: #5c6670;
+  --color-line: #e2e5e1;
+
+  /* Фирменный зелёный WhatsApp — только для кнопок мессенджера */
+  --color-whatsapp: #25d366;
+  --color-whatsapp-dark: #1da851;
+
+  --font-sans: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-card: 0.875rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Тонкая настройка переносов для длинных казахских и русских слов */
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+    hyphens: auto;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}

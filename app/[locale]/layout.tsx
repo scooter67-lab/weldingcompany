@@ -1,0 +1,111 @@
+import type { Metadata } from "next";
+import { Manrope } from "next/font/google";
+import { notFound } from "next/navigation";
+import type { Locale } from "@/content/types";
+import { locales } from "@/content/types";
+import { getDictionary, isLocale } from "@/lib/dictionaries";
+import { site } from "@/lib/site";
+import { Header } from "@/components/layout/Header";
+import { Footer } from "@/components/layout/Footer";
+import { WhatsAppFab } from "@/components/ui/WhatsAppFab";
+import "../globals.css";
+
+// Manrope самохостится на билде: никаких обращений к Google со стороны посетителя.
+// Кириллица включена ради казахских глифов ә ғ қ ң ө ұ ү һ і.
+const manrope = Manrope({
+  subsets: ["latin", "cyrillic"],
+  display: "swap",
+  variable: "--font-manrope",
+});
+
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
+export const dynamicParams = false;
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  if (!isLocale(locale)) return {};
+  const dict = getDictionary(locale);
+
+  return {
+    metadataBase: new URL(site.url),
+    title: {
+      default: dict.meta.home.title,
+      template: `%s — ${dict.common.brand}`,
+    },
+    description: dict.meta.home.description,
+    openGraph: {
+      type: "website",
+      siteName: dict.common.brand,
+      locale: locale === "ru" ? "ru_RU" : "kk_KZ",
+    },
+  };
+}
+
+/**
+ * Корневой layout приложения: все маршруты живут под /[locale],
+ * поэтому html/body объявляются здесь и получают правильный lang.
+ */
+export default async function LocaleLayout({
+  children,
+  params,
+}: {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  if (!isLocale(locale)) notFound();
+
+  const typedLocale: Locale = locale;
+  const dict = getDictionary(typedLocale);
+
+  const organizationLd = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    name: dict.common.brand,
+    description: dict.meta.home.description,
+    url: `${site.url}/${typedLocale}/`,
+    telephone: site.phone,
+    email: site.email,
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: site.geo.locality,
+      addressCountry: site.geo.country,
+    },
+    areaServed: dict.hero.kicker,
+    knowsLanguage: ["ru", "kk"],
+  };
+
+  return (
+    <html lang={typedLocale} className={manrope.variable}>
+      <body className="flex min-h-dvh flex-col antialiased">
+        <a
+          href="#main"
+          className="sr-only rounded-lg bg-brand-900 px-4 py-2 text-white focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-100"
+        >
+          {dict.common.skipToContent}
+        </a>
+        <Header locale={typedLocale} dict={dict} />
+        <main id="main" className="flex-1">
+          {children}
+        </main>
+        <Footer locale={typedLocale} dict={dict} />
+        <WhatsAppFab
+          label={dict.common.writeWhatsApp}
+          message={dict.common.waDefault}
+        />
+        <script
+          type="application/ld+json"
+          // Статичный объект, собранный на билде из словаря — не пользовательский ввод.
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationLd) }}
+        />
+      </body>
+    </html>
+  );
+}
