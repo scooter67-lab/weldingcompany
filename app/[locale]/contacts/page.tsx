@@ -30,6 +30,7 @@ export default async function ContactsPage({ params }: Props) {
       <PageHero
         locale={locale}
         dict={dict}
+        page="contacts"
         title={dict.contacts.title}
         lead={dict.contacts.lead}
       />

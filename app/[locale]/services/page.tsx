@@ -24,6 +24,7 @@ export default async function ServicesPage({ params }: Props) {
       <PageHero
         locale={locale}
         dict={dict}
+        page="services"
         title={dict.services.title}
         lead={dict.services.lead}
       />

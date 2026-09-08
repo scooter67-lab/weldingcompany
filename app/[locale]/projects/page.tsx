@@ -23,6 +23,7 @@ export default async function ProjectsPage({ params }: Props) {
       <PageHero
         locale={locale}
         dict={dict}
+        page="projects"
         title={dict.cases.title}
         lead={dict.cases.lead}
       />

@@ -35,10 +35,10 @@ export async function generateMetadata({
 
   return {
     metadataBase: new URL(site.url),
-    title: {
-      default: dict.meta.home.title,
-      template: `%s — ${dict.common.brand}`,
-    },
+    // Шаблон с названием бренда намеренно не используется: он занимал бы
+    // ~17 символов из 60, которые Google показывает в выдаче, а бренд новый
+    // и по нему не ищут. Каждая страница задаёт заголовок целиком.
+    title: dict.meta.home.title,
     description: dict.meta.home.description,
     openGraph: {
       type: "website",

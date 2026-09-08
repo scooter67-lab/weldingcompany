@@ -23,6 +23,7 @@ export default async function ProcessPage({ params }: Props) {
       <PageHero
         locale={locale}
         dict={dict}
+        page="process"
         title={dict.process.title}
         lead={dict.process.lead}
       />

@@ -23,6 +23,7 @@ export default async function ProductsPage({ params }: Props) {
       <PageHero
         locale={locale}
         dict={dict}
+        page="products"
         title={dict.products.title}
         lead={dict.products.lead}
       />
