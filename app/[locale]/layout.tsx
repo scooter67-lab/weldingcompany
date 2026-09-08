@@ -8,6 +8,8 @@ import { site } from "@/lib/site";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFab } from "@/components/ui/WhatsAppFab";
+import { Analytics } from "@/components/Analytics";
+import { verification } from "@/lib/analytics";
 import "../globals.css";
 
 // Manrope самохостится на билде: никаких обращений к Google со стороны посетителя.
@@ -44,6 +46,12 @@ export async function generateMetadata({
       type: "website",
       siteName: dict.common.brand,
       locale: locale === "ru" ? "ru_RU" : "kk_KZ",
+    },
+    // Подтверждение прав в Search Console и Яндекс.Вебмастере.
+    // Пустые значения не выводятся — при подтверждении через DNS не нужны.
+    verification: {
+      ...(verification.google ? { google: verification.google } : {}),
+      ...(verification.yandex ? { yandex: verification.yandex } : {}),
     },
   };
 }
@@ -96,6 +104,7 @@ export default async function LocaleLayout({
           {children}
         </main>
         <Footer locale={typedLocale} dict={dict} />
+        <Analytics />
         <WhatsAppFab
           label={dict.common.writeWhatsApp}
           message={dict.common.waDefault}
