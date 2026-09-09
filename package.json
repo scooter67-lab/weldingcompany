@@ -2,6 +2,9 @@
   "name": "dairy-plant-engineering",
   "version": "0.1.0",
   "private": true,
+  "author": "TB Group (https://tbgroup.kz/)",
+  "license": "UNLICENSED",
+  "description": "Двуязычный сайт инжиниринговой компании: запуск молочных производств под ключ",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

@@ -42,6 +42,12 @@ export async function generateMetadata({
     // и по нему не ищут. Каждая страница задаёт заголовок целиком.
     title: dict.meta.home.title,
     description: dict.meta.home.description,
+    // Авторство: видно в «просмотре кода страницы» и в мета-данных.
+    // Уведомление об авторе — часть произведения, см. LICENSE.
+    authors: [{ name: "TB Group", url: "https://tbgroup.kz/" }],
+    creator: "TB Group",
+    publisher: "TB Group",
+    other: { copyright: "© 2026 TB Group. Все права защищены." },
     openGraph: {
       type: "website",
       siteName: dict.common.brand,
