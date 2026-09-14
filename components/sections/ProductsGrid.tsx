@@ -20,6 +20,28 @@ const icons = [
   />,
 ];
 
+/** Фото продукции заказчика «Моя ферма» — витрина и ассортимент. */
+const photos = [
+  {
+    src: "/images/products-assortment.webp",
+    alt: "Ассортимент «Моя ферма»: сметана, айран, йогурт, творог и молоко",
+    width: 800,
+    height: 882,
+  },
+  {
+    src: "/images/products-milk.webp",
+    alt: "Молоко 3,2% в плёночных пакетах 900 мл в холодильной витрине",
+    width: 800,
+    height: 1067,
+  },
+  {
+    src: "/images/products-curd.webp",
+    alt: "Фасованный творог 500 г в холодильной витрине",
+    width: 800,
+    height: 1067,
+  },
+];
+
 export function ProductsGrid({
   dict,
   withPhoto = false,
@@ -63,23 +85,24 @@ export function ProductsGrid({
         ))}
       </div>
 
-      <div
-        className={`mt-10 grid items-center gap-8 ${
-          withPhoto ? "lg:grid-cols-[1.4fr_1fr]" : ""
-        }`}
-      >
+      <div className="mt-10 grid gap-8">
         <p className="rounded-card border-l-4 border-accent bg-surface px-6 py-5 text-lg leading-relaxed font-medium text-brand-900">
           {dict.products.capacityNote}
         </p>
         {withPhoto ? (
-          <Image
-            src="/images/products.webp"
-            alt="Готовая молочная продукция: молоко, творог, сыр и масло"
-            width={724}
-            height={899}
-            sizes="(min-width: 1024px) 33vw, 100vw"
-            className="rounded-card aspect-[4/3] w-full object-cover"
-          />
+          <div className="grid gap-5 sm:grid-cols-3">
+            {photos.map((photo) => (
+              <Image
+                key={photo.src}
+                src={photo.src}
+                alt={photo.alt}
+                width={photo.width}
+                height={photo.height}
+                sizes="(min-width: 640px) 33vw, 100vw"
+                className="rounded-card aspect-[3/4] w-full object-cover"
+              />
+            ))}
+          </div>
         ) : null}
       </div>
     </Section>
