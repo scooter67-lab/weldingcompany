@@ -28,9 +28,18 @@ const assets = [
   { source: "x61_", name: "plant-hall", widths: [768], alt: "Цех, ряд танков" },
 ];
 
-/** Отдельные снимки, присланные заказчиком напрямую (не из презентации). */
+/**
+ * Отдельные снимки, присланные заказчиком напрямую (не из презентации).
+ * crop — область исходника до ресайза, если кадр нужно подрезать.
+ */
 const standalone = [
-  { file: "docx/Foto1.png", name: "case-yogurt", width: 1100 },
+  // Верх срезан: в правом верхнем углу исходника водяной знак SILK WAY.
+  {
+    file: "docx/IMG_5809.PNG",
+    name: "case-yogurt",
+    width: 1100,
+    crop: { left: 0, top: 168, width: 1659, height: 780 },
+  },
   { file: "docx/foto moya ferma/WhatsApp Image 2026-09-14 at 13.08.15.jpeg", name: "products-assortment", width: 800 },
   { file: "docx/foto moya ferma/WhatsApp Image 2026-09-14 at 13.09.10.jpeg", name: "products-milk", width: 800 },
   { file: "docx/foto moya ferma/WhatsApp Image 2026-09-14 at 13.09.11.jpeg", name: "products-curd", width: 800 },
@@ -63,7 +72,9 @@ for (const asset of assets) {
 }
 
 for (const asset of standalone) {
-  const info = await sharp(asset.file)
+  const pipeline = sharp(asset.file);
+  if (asset.crop) pipeline.extract(asset.crop);
+  const info = await pipeline
     .resize({ width: asset.width, withoutEnlargement: true })
     .webp({ quality: 82 })
     .toFile(path.join(OUT_DIR, `${asset.name}.webp`));
