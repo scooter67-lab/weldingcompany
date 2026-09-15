@@ -26,7 +26,6 @@ const assets = [
   { source: "x385", name: "plant-cip", widths: [1200, 800], alt: "CIP-станция и танки" },
   { source: "x356", name: "plant-cip-detail", widths: [605], alt: "Узел пастеризации" },
   { source: "x61_", name: "plant-hall", widths: [768], alt: "Цех, ряд танков" },
-  { source: "x350", name: "team", widths: [480], alt: "Команда в цехе" },
 ];
 
 /** Отдельные снимки, присланные заказчиком напрямую (не из презентации). */
@@ -35,6 +34,7 @@ const standalone = [
   { file: "docx/foto moya ferma/WhatsApp Image 2026-09-14 at 13.08.15.jpeg", name: "products-assortment", width: 800 },
   { file: "docx/foto moya ferma/WhatsApp Image 2026-09-14 at 13.09.10.jpeg", name: "products-milk", width: 800 },
   { file: "docx/foto moya ferma/WhatsApp Image 2026-09-14 at 13.09.11.jpeg", name: "products-curd", width: 800 },
+  { file: "docx/foto moya ferma/WhatsApp Image 2026-09-15 at 16.12.27.jpeg", name: "team", width: 960 },
 ];
 
 const files = await readdir(RAW_DIR);

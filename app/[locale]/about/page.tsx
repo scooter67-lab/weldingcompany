@@ -57,8 +57,8 @@ export default async function AboutPage({ params }: Props) {
             <Image
               src="/images/team.webp"
               alt="Команда в цехе молочного производства"
-              width={480}
-              height={360}
+              width={960}
+              height={720}
               sizes="(min-width: 1024px) 35vw, 100vw"
               className="rounded-card aspect-[4/3] w-full object-cover"
             />
