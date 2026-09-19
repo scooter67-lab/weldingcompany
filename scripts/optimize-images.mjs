@@ -36,9 +36,16 @@ const standalone = [
   // Верх срезан: в правом верхнем углу исходника водяной знак SILK WAY.
   {
     file: "docx/IMG_5809.PNG",
-    name: "case-yogurt",
+    name: "case-dairy",
     width: 1100,
     crop: { left: 0, top: 168, width: 1659, height: 780 },
+  },
+  // Кадрирование до 16:9 — карточка кейса обрезает квадрат по object-cover.
+  {
+    file: "docx/WhatsApp Image 2026-09-19 at 13.28.59.jpeg",
+    name: "case-yogurt",
+    width: 1100,
+    crop: { left: 0, top: 120, width: 1297, height: 730 },
   },
   { file: "docx/foto moya ferma/WhatsApp Image 2026-09-14 at 13.08.15.jpeg", name: "products-assortment", width: 800 },
   { file: "docx/foto moya ferma/WhatsApp Image 2026-09-14 at 13.09.10.jpeg", name: "products-milk", width: 800 },
