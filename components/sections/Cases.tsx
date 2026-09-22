@@ -7,8 +7,8 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 
 /** Фото объектов — по порядку кейсов в словаре. */
 const caseImages = [
-  { src: "/images/case-dairy.webp", width: 1100, height: 517 },
   { src: "/images/case-yogurt.webp", width: 1100, height: 619 },
+  { src: "/images/case-dairy.webp", width: 1100, height: 517 },
 ];
 
 export function Cases({
